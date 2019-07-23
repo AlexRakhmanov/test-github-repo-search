@@ -3,6 +3,8 @@ import styled from 'styled-components';
 
 import Card from './components/Card';
 import './styles/App.scss';
+import { store } from './store/store';
+import { search } from './store/actions';
 
 const Root = styled.div`
 display: flex;
@@ -37,11 +39,20 @@ class App extends React.Component<{}, State> {
       return;
     }
 
+    console.log('App.tsx: handleChange');
+
     this.setState({
       isFetching: true
     })
 
+    console.log('App.tsx: handleChange -> dispatch');
+    store.dispatch(search(event.target.value));
 
+    console.log('App.tsx: handleChange -> setState');
+    this.setState({
+      data: store.getState().data,
+      isFetching: false
+    })
     // axios.get(`https://api.github.com/search/repositories?q=${event.target.value}`)
     //      .then(data => {
     //        this.setState({
