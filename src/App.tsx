@@ -14,10 +14,34 @@ align-items: center;
 `;
 
 const Input = styled.input`
-padding: 10px 15px;
+background-color: #fff;
+background-position: right 8px center;
+background-repeat: no-repeat;
+border: 1px solid #d1d5da;
+border-radius: 3px;
+box-shadow: inset 0 1px 2px rgba(27,31,35,.075);
+color: #24292e;
+font-size: 16px;
+line-height: 20px;
+min-height: 34px;
+outline: none;
+padding: 6px 8px;
+vertical-align: middle;
+width: 30%;
+
+&:focus {
+  border-color: #2188ff;
+  box-shadow: inset 0 1px 2px rgba(27,31,35,.075), 0 0 0 0.2em rgba(3,102,214,.3);
+  outline: none;
+}
 `
 
 const CardsContainer = styled.div`
+width: 100%;
+`;
+
+const P = styled.p`
+text-align: center;
 `;
 
 interface State {
@@ -63,7 +87,6 @@ class App extends React.Component<{}, State> {
         <Input
           type="text"
           placeholder="Введите имя репозитория"
-          className="search-input"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onChange(event.target.value)}
         />
         <h2>Результаты поиска: </h2>
@@ -72,10 +95,10 @@ class App extends React.Component<{}, State> {
             <Card data={item} />
           ))}
           {this.state.data.length === 0 && !this.state.isFetching && (
-            <p>Ничего нет</p>
+            <P>Ничего нет</P>
           )}
           {this.state.isFetching && (
-            <p>Ищу...</p>
+            <P>Ищу...</P>
           )}
         </CardsContainer>
       </Root>

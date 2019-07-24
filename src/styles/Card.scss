@@ -1,0 +1,17 @@
+.container {
+  padding: 10px;
+  border-bottom: 1px solid #e1e4e8; 
+  width: 30%;
+  text-align: center;
+
+  .repo {
+    color: #0366d6;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
