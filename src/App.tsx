@@ -68,7 +68,7 @@ class App extends React.Component<{}, State> {
         />
         <h2>Результаты поиска: </h2>
         <CardsContainer>
-          {this.state.data.length !== 0 && !this.state.isFetching && this.state.data.map((item: Object) => (
+          {this.state.data.length !== 0 && !this.state.isFetching && this.state.data.map((item: object) => (
             <Card data={item} />
           ))}
           {this.state.data.length === 0 && !this.state.isFetching && (

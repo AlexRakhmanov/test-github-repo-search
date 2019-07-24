@@ -11,17 +11,19 @@ padding: 10px;
 `;
 
 interface Props {
-  data: any 
+  data: object 
 }
 
 class Card extends React.Component<Props, {}> {
   render() {
+    const data: any = this.props.data;
+
     return (
     <Wrapper>
       <div className="container">
-        <a href={this.props.data.html_url} className="repo" target="_black">{this.props.data.name}</a>
-        <p className="stars">{this.props.data.stargazers_count} Stars</p>
-        <p className="watchers">{this.props.data.watchers_count} Watchers</p>
+        <a href={data.html_url} className="repo" target="_black">{data.name}</a>
+        <p className="stars">{data.stargazers_count} Stars</p>
+        <p className="watchers">{data.watchers_count} Watchers</p>
       </div>
     </Wrapper>
     )

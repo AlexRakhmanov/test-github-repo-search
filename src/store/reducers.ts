@@ -10,11 +10,10 @@ const defaultState: State = {
 };
 
 async function search(query: string) {
-  console.log('reducers.ts: search');
   const pr = await axios.get(`https://api.github.com/search/repositories?q=${query}`)
-       .then(data => {
-         return data.data.items;
-       });
+                        .then(data => {
+                          return data.data.items;
+                        });
 
   return pr;
 }
@@ -26,7 +25,6 @@ export function reducer(state: State = defaultState, action: IAction): State {
         data: search(action.query)
       }
     default:
-      console.log('reducers.ts: default case');
       return state;
   }
 }
