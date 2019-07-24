@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { debounce } from 'lodash';
 
 import Card from './components/Card';
 import './styles/App.scss';
@@ -30,8 +31,14 @@ class App extends React.Component<{}, State> {
     isFetching: false
   }
 
-  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.value === '') {
+  private onChange = debounce((value: string) => this.handleChange(value), 500);
+
+  private handleChange = (value: string) => {
+    this.setState({
+      isFetching: true
+    })
+
+    if (value === '') {
       this.setState({
         data: [],
         isFetching: false
@@ -39,29 +46,14 @@ class App extends React.Component<{}, State> {
       return;
     }
 
-    console.log('App.tsx: handleChange');
+    store.dispatch(search(value));
 
-    this.setState({
-      isFetching: true
+    store.getState().data.then((data:any) => {
+      this.setState({
+        data: data,
+        isFetching: false
+      })
     })
-
-    console.log('App.tsx: handleChange -> dispatch');
-    store.dispatch(search(event.target.value));
-
-    console.log('App.tsx: handleChange -> setState');
-    this.setState({
-      data: store.getState().data,
-      isFetching: false
-    })
-    // axios.get(`https://api.github.com/search/repositories?q=${event.target.value}`)
-    //      .then(data => {
-    //        this.setState({
-    //           data: data.data.items,
-    //           isFetching: false
-    //        });
-
-    //        console.log(data.data);
-    //      })
   }
 
   render() {
@@ -72,11 +64,11 @@ class App extends React.Component<{}, State> {
           type="text"
           placeholder="Введите имя репозитория"
           className="search-input"
-          onChange={this.handleChange}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => this.onChange(event.target.value)}
         />
         <h2>Результаты поиска: </h2>
         <CardsContainer>
-          {this.state.data.length !== 0 && this.state.data.map((item: Object) => (
+          {this.state.data.length !== 0 && !this.state.isFetching && this.state.data.map((item: Object) => (
             <Card data={item} />
           ))}
           {this.state.data.length === 0 && !this.state.isFetching && (

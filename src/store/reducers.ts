@@ -2,30 +2,28 @@ import { IAction } from './actions';
 import axios from 'axios';
 
 interface State {
-  data: object[]
+  data: any
 };
 
 const defaultState: State = {
   data: []
 };
 
-let res: object[] = [];
-
-function search(query: string) {
+async function search(query: string) {
   console.log('reducers.ts: search');
-  axios.get(`https://api.github.com/search/repositories?q=${query}`)
+  const pr = await axios.get(`https://api.github.com/search/repositories?q=${query}`)
        .then(data => {
-         res = data.data.items;
+         return data.data.items;
        });
+
+  return pr;
 }
 
 export function reducer(state: State = defaultState, action: IAction): State {
   switch (action.type) {
     case "SEARCH":
-      search(action.query)
-
       return {
-        data: res
+        data: search(action.query)
       }
     default:
       console.log('reducers.ts: default case');
